@@ -30,15 +30,11 @@ class VentanaProcesamiento:
         self.root = ttkb.Window(themename="flatly")
         self.root.title("Procesamiento de Datos")
         self.root.iconbitmap(Get_Resource_Path("assets/icono.ico"))
-        self.root.iconbitmap(Get_Resource_Path("assets/icono.ico"))
         self.root.configure(bg="#F5ECD5", highlightthickness=0, bd=0)
 
         self.root.state("zoomed")
         self.fig = None
 
-        # Calcular el tamaño de la ventana
-        width = 1920
-        height = 1080
         width = 1920
         height = 1080
 
@@ -270,10 +266,10 @@ class VentanaProcesamiento:
             self.ax.clear()
 
             clases = None
-        if self.data["tipo"] == "Discreta":
-            clases = self.data["xi"]
-        elif self.data["tipo"] == "Continua":
-            clases = [f"[ {i[0]} - {i[1]} >" for i in self.data["intervalos"]]
+            if self.data["tipo"] == "Discreta":
+                clases = self.data["xi"]
+            elif self.data["tipo"] == "Continua":
+                clases = [f"[ {i[0]} - {i[1]} >" for i in self.data["intervalos"]]
 
             self.ax.bar(clases, self.data["fi"], color="#5D6D7E")
             self.ax.set_title(
@@ -286,8 +282,6 @@ class VentanaProcesamiento:
                 clases, fontsize=9, rotation=30, rotation_mode="anchor", ha="right"
             )
 
-            self.ax.set_xlabel("Clases", fontsize=12)
-            self.ax.set_ylabel("Frecuencia", fontsize=12)
             self.ax.set_xlabel("Clases", fontsize=12)
             self.ax.set_ylabel("Frecuencia", fontsize=12)
 
@@ -445,7 +439,6 @@ class VentanaProcesamiento:
         )
 
     def regresar(self):
-        self.configurar_estilos()  # asegúrate de llamar esto antes de usar el estilo
         self.configurar_estilos()  # asegúrate de llamar esto antes de usar el estilo
         btn_regresar = ttkb.Button(
             self.contenedor,
