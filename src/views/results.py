@@ -30,12 +30,15 @@ class VentanaProcesamiento:
         self.root = ttkb.Window(themename="flatly")
         self.root.title("Procesamiento de Datos")
         self.root.iconbitmap(Get_Resource_Path("assets/icono.ico"))
+        self.root.iconbitmap(Get_Resource_Path("assets/icono.ico"))
         self.root.configure(bg="#F5ECD5", highlightthickness=0, bd=0)
 
         self.root.state("zoomed")
         self.fig = None
 
         # Calcular el tamaño de la ventana
+        width = 1920
+        height = 1080
         width = 1920
         height = 1080
 
@@ -136,6 +139,7 @@ class VentanaProcesamiento:
         )
         medidas_title.pack(anchor="nw", pady=(0, 10))
 
+        self.mostrar_resultados_estadisticos(self.decimals_precision.get())
         self.mostrar_resultados_estadisticos(self.decimals_precision.get())
 
         # Botón volver abajo a la derecha
@@ -284,6 +288,8 @@ class VentanaProcesamiento:
 
             self.ax.set_xlabel("Clases", fontsize=12)
             self.ax.set_ylabel("Frecuencia", fontsize=12)
+            self.ax.set_xlabel("Clases", fontsize=12)
+            self.ax.set_ylabel("Frecuencia", fontsize=12)
 
             for i, v in enumerate(self.data["fi"]):
                 self.ax.text(
@@ -417,6 +423,7 @@ class VentanaProcesamiento:
 
         # Aquí está el cambio para mover la tabla más a la derecha: padx a la izquierda
         self.tabla_estadistica.pack(fill="both", expand=False, padx=(0, 140))
+        self.tabla_estadistica.pack(fill="both", expand=False, padx=(0, 140))
 
         self.tabla_estadistica.tag_configure("evenrow", background="#F5F5F5")
         self.tabla_estadistica.tag_configure("oddrow", background="#FFFFFF")
@@ -438,6 +445,7 @@ class VentanaProcesamiento:
         )
 
     def regresar(self):
+        self.configurar_estilos()  # asegúrate de llamar esto antes de usar el estilo
         self.configurar_estilos()  # asegúrate de llamar esto antes de usar el estilo
         btn_regresar = ttkb.Button(
             self.contenedor,

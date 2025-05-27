@@ -17,6 +17,9 @@ from excception_handler import WarningException
 from PIL import Image, ImageTk
 import pandas as pd
 
+from python_calamine import CalamineWorkbook
+import polars as pl
+
 class mainWindow:
     def __init__(self):
         self.root = ttkb.Window(themename="flatly")
@@ -103,7 +106,7 @@ class mainWindow:
         self.frame_preview.place(x=300, y=70)
 
         try:
-            icono_preview = Image.open("assets/icono-excel-previsualizacion.png").resize((20, 20), Image.LANCZOS)
+            icono_preview = Image.open(Get_Resource_Path("assets/icono-excel-previsualizacion.png")).resize((20, 20), Image.LANCZOS)
         except:
             icono_preview = Image.new("RGB", (20, 20), "gray")  # En caso de error, icono gris saa
 
@@ -124,13 +127,11 @@ class mainWindow:
         if hasattr(self, 'frame_preview') and self.frame_preview:
             self.frame_preview.destroy()
 
-
-
     def actualizar_columnas(self):
         try:
             sheet = self.sheet_number.get()
-            df = pd.read_excel(self.excel_path.get(), sheet_name=sheet - 1)
-            self.columns_name = list(df.columns)
+            Excel = CalamineWorkbook.from_path(self.excel_path.get()).get_sheet_by_index(sheet - 1).to_python(skip_empty_area=False)
+            self.columns_name = [col_name for col_name in Excel[0] if col_name]
             self.combobox_columns_name.config(values=self.columns_name)
         except Exception as e:
             messagebox.showerror("Error", f"No se pudo cargar columnas: {e}")
@@ -156,7 +157,8 @@ class mainWindow:
                 self.excel_path.get(),
                 self.combobox_columns_name.get(),
                 self.type_variable.get(),
-                self.decimals_precision.get()
+                self.decimals_precision.get(),
+                self.sheet_number.get(),
             )
 
             self.root.destroy()

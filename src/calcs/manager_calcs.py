@@ -2,15 +2,16 @@ import pandas as pd
 from calcs import cuantitative_no_grouped_data as nq
 from calcs import cuantitative_grouped_data as g
 
-def gestionar_datos(path_excel, column_name, tipo_variable, precision):
+from python_calamine import CalamineWorkbook
+
+def gestionar_datos(path_excel, column_name, tipo_variable, precision , sheet_idx):
     # Leer Excel
-    df = pd.read_excel(path_excel, sheet_name=0)
-    
+    Excel = CalamineWorkbook.from_path(path_excel).get_sheet_by_index(sheet_idx - 1).to_python(skip_empty_area=False)
+    df = pd.DataFrame(data=Excel[1:] , columns=Excel[0])
     if column_name not in df.columns:
         raise ValueError("La columna no existe en el archivo Excel.")
 
     data = df[column_name].dropna().tolist()
-
     try:
         data = list(map(float, data))  # Intenta convertir todos los valores a float
     except:
@@ -60,6 +61,7 @@ def gestionar_datos(path_excel, column_name, tipo_variable, precision):
         coef_variacion = g.Calc_Coefficient_Variation(desviacion, media)
 
         return {
+            "data" : data,
             "tipo": "Continua",
             "intervalos": intervalos, "xi": xi, "fi": fi, "hi": hi, "Hi": Hi, "pi": pi, "Pi": Pi,
             "media": media, "mediana": mediana, "moda": moda,
