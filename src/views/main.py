@@ -22,7 +22,7 @@ import openpyxl
 from python_calamine import CalamineWorkbook
 import polars as pl
 
-
+import time
 class mainWindow:
     def __init__(self):
         self.root = ttkb.Window(themename="flatly")
@@ -252,6 +252,8 @@ class mainWindow:
 
     def Process_Data(self):
         try:
+            start_time = time.time()
+
             self.Validate_Data()
 
             Dictionary_Results = gestionar_datos(
@@ -262,6 +264,9 @@ class mainWindow:
                 self.sheet_number.get(),
             )
 
+            end_time = time.time()
+            print(f"Tiempo de procesamiento de datos: {end_time - start_time:.9f}")
+            
             VentanaProcesamiento(
                 self.root, Dictionary_Results, self.decimals_precision.get()
             )

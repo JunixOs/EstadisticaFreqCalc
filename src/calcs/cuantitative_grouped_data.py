@@ -86,7 +86,7 @@ def Calc_Amplitude(rango, m_redondeado, max_n_decimals_in_data):
 
         return round(Number, N_Decimals), N_Decimals
     else:
-        return Number + 0.1
+        return Number + 0.1 , N_Decimals + 1
 
 
 def Calc_Intervals(vmin, amplitud, m, N_Decimals_C):
